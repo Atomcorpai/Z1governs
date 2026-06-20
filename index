@@ -392,7 +392,6 @@
 
 <!-- HERO -->
 <section id="hero" class="hero">
-  <video class="hero-video" src="https://storage.googleapis.com/audos-images/workspace-media/38f62d24-1a54-4975-8bbc-22574b3d16c9/1781359371711_3lh9o6hh.mp4" autoplay loop playsinline muted></video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <p class="eyebrow">Deterministic governance &amp; audit layer</p>
