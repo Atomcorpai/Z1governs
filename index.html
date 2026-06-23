@@ -227,6 +227,600 @@
       background: var(--bg);
     }
 
+    /* SEAL GRID */
+    .seal-grid {
+      margin-top: 3rem; display: grid; gap: 1px;
+      overflow: hidden; border: 1px solid var(--border); border-radius: 0.5rem;
+      background: var(--border);
+    }
+    @media (min-width: 768px) { .seal-grid { grid-template-columns: 1fr 1fr; } }
+    .seal-card { padding: 2rem; background: #1A1F26; }
+    .seal-card-title {
+      font-family: var(--mono); font-size: 0.875rem; font-weight: 700;
+      letter-spacing: 0.12em; color: var(--green);
+    }
+    .seal-card-body { margin-top: 0.75rem; font-size: 1rem; line-height: 1.75rem; color: var(--text-2); }
+
+    /* FOOTER / PILOT */
+    .footer { border-top: 2px solid var(--border); padding: 6rem 1.5rem; background: var(--bg); }
+    .footer-inner { max-width: 48rem; margin: 0 auto; text-align: left; }
+    @media (min-width: 768px) { .footer-inner { text-align: center; } }
+    .pilot-title {
+      margin-top: 1rem; font-family: var(--mono);
+      font-size: clamp(2rem,5vw,3rem); font-weight: 700;
+      letter-spacing: -0.01em; color: var(--text);
+    }
+    .pilot-subtitle {
+      margin-top: 1.5rem; font-size: clamp(1.125rem,2.5vw,1.5rem);
+      line-height: 2rem; color: var(--text-2);
+    }
+    .pilot-oneliner { margin-top: 1.5rem; font-family: var(--mono); font-size: 1rem; line-height: 1.75rem; color: var(--text); }
+    .pilot-couplet { margin-top: 0.5rem; font-family: var(--mono); font-size: 1rem; line-height: 1.75rem; color: var(--text-2); }
+    .pilot-couplet span { color: var(--green); }
+    .pilot-product-tag { margin-top: 0.5rem; font-family: var(--mono); font-size: 0.875rem; line-height: 1.5rem; color: var(--blue); }
+    .pilot-saas { margin-top: 1.25rem; font-family: var(--mono); font-size: 0.75rem; line-height: 1.5rem; color: var(--text-3); }
+    .pilot-hmac { margin-top: 1.5rem; font-family: var(--mono); font-size: 0.875rem; line-height: 1.5rem; color: var(--text-2); }
+    .pilot-hmac-badge {
+      display: inline-block; margin-top: 0.5rem;
+      border: 1px solid var(--green); border-radius: 0.375rem;
+      padding: 0.5rem 1rem; font-family: var(--mono); font-size: 0.875rem;
+      font-weight: 700; letter-spacing: 0.18em; color: var(--green);
+      background: var(--green-dim);
+    }
+
+    /* PRICING */
+    .pricing-band {
+      margin-top: 2.5rem; max-width: 42rem; margin-left: auto; margin-right: auto;
+      border: 1px solid var(--border); border-radius: 0.5rem;
+      padding: 1.5rem 1.75rem;
+      background: rgba(25,249,166,0.03);
+    }
+    .pricing-label {
+      font-family: var(--mono); font-size: 0.6875rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.22em; color: var(--green);
+    }
+    .pricing-row {
+      margin-top: 0.75rem; display: flex; flex-wrap: wrap;
+      align-items: flex-end; justify-content: center; gap: 1.5rem;
+    }
+    .price-block { display: flex; align-items: baseline; gap: 0.5rem; }
+    .price-big { font-family: var(--mono); font-size: clamp(1.875rem,4vw,2.25rem); font-weight: 700; color: var(--text); }
+    .price-unit { font-family: var(--mono); font-size: 1rem; color: var(--text-3); }
+    .price-save { font-family: var(--mono); font-size: 0.75rem; color: var(--blue); }
+    .pricing-partner { margin-top: 1rem; font-family: var(--mono); font-size: 0.875rem; color: var(--blue); }
+    .pricing-terms { margin-top: 0.75rem; max-width: 36rem; margin-left: auto; margin-right: auto; font-family: var(--mono); font-size: 0.75rem; line-height: 1.5rem; color: var(--text-2); }
+
+    .pilot-ctas {
+      margin-top: 2rem; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1rem;
+    }
+    @media (min-width: 640px) { .pilot-ctas { flex-direction: row; } }
+    .pilot-email { font-family: var(--mono); font-size: 1rem; font-weight: 600; letter-spacing: 0.02em; color: var(--blue); }
+    .pilot-qualifier { margin-top: 0.75rem; font-family: var(--mono); font-size: 0.875rem; line-height: 1.5rem; color: var(--text-2); letter-spacing: 0.02em; }
+
+    /* FOOTER WORDMARK */
+    .footer-wordmark {
+      margin-top: 3.5rem; padding-top: 2rem;
+      border-top: 2px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+    }
+    @media (min-width: 640px) { .footer-wordmark { flex-direction: row; justify-content: space-between; } }
+    .footer-brand { display: flex; align-items: center; gap: 0.75rem; }
+    .footer-logo {
+      display: flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem;
+      border: 1px solid var(--green); border-radius: 0.375rem;
+      font-family: var(--mono); font-size: 0.6875rem; font-weight: 700;
+      color: var(--green); background: var(--green-dim);
+    }
+    .footer-brand-name { font-family: var(--mono); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.14em; color: var(--text); }
+    .footer-tagline { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.02em; color: var(--text-3); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">
+      <div class="nav-logo">Z1</div>
+      <div class="nav-brand-text">
+        <p>Z1 Governance</p>
+        <p>Governed AI. Actually.</p>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="#execution">Execution</a>
+      <a href="#simulator">Simulator</a>
+      <a href="#seal">The seal</a>
+      <a href="#pilot">Pilot</a>
+      <a href="#pilot" class="nav-cta">Discuss a pilot</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <video class="hero-video" src="./hero.mp4.mp4" autoplay loop playsinline muted></video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="eyebrow">Deterministic governance &amp; audit layer</p>
+    <h1>Governed AI. <span>Actually.</span></h1>
+    <p class="hero-oneliner">Z1 holds your business.</p>
+    <p class="hero-subtitle">The model proposes. <span>Python disposes.</span></p>
+    <p class="hero-tagline">Knows you instead of just remembering you.</p>
+    <p class="hero-body">
+      Z1 is a deterministic governance and audit layer that sits under your AI agents.
+      Every action an agent proposes runs through a gate that returns a verdict —
+      <span class="allow">ALLOW</span> or <span class="block">BLOCK</span> —
+      with the evidence behind it, and a receipt you can read.
+    </p>
+    <div class="hero-ctas">
+      <a href="#pilot" class="btn-primary">Request a Pilot</a>
+      <button class="btn-primary" onclick="document.getElementById('simulator').scrollIntoView({behavior:'smooth'})">Try the Gate</button>
+    </div>
+    <p class="hero-saas">Each client gets a live, governed environment at z1governs.com/clientname — a configured microsite at your own URL. No zip files. No IT calls.</p>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture" class="section">
+  <div class="section-inner">
+    <p class="eyebrow">In plain terms</p>
+    <p class="arch-intro">
+      Z1 sits between your AI and your computer. Before the AI is allowed to do anything —
+      send a file, run a command, touch your data — Z1 checks it against your rules and
+      writes down the decision. The AI suggests. Z1 decides. And every decision leaves a
+      receipt you can read.
+    </p>
+    <p class="section-body">
+      Model-level compliance is best-effort — a model complies until it doesn't.
+      Z1 does not ask the model to behave. It checks the action in deterministic Python
+      before the action can happen.
+    </p>
+    <p class="arch-closer">Most AI is a promise. <span>Z1 is a paper trail.</span></p>
+  </div>
+</section>
+
+<!-- EXECUTION -->
+<section id="execution" class="section section-alt">
+  <div class="section-inner-center">
+    <p class="eyebrow">Cryptographic execution control</p>
+    <h2 class="section-title">Every instruction Z1 acts on must carry a cryptographic seal.</h2>
+    <p class="section-body" style="max-width:42rem;margin:1.5rem auto 0;">
+      The seal is an HMAC-SHA256 signature created when the instruction is formed.
+      Z1 recomputes it before executing and refuses anything whose seal does not match.
+    </p>
+    <p class="section-body" style="max-width:42rem;margin:1.5rem auto 0;font-family:var(--mono);color:var(--text-2);">
+      Wrong seal, no execution. Full stop.
+    </p>
+    <div class="exec-slogan">No seal. No execution.</div>
+    <div class="exec-ctas">
+      <button class="btn-primary btn-sm" onclick="document.getElementById('simulator').scrollIntoView({behavior:'smooth'})">Try the Gate</button>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULATOR -->
+<section id="simulator" class="section">
+  <div class="section-inner">
+    <p class="eyebrow">Action Guard Simulator</p>
+    <h2 class="section-title">Run an instruction through the gate.</h2>
+    <p class="section-body">
+      Type any agent instruction. Z1 runs it through the live deterministic gate —
+      the same Python governance layer that governs every action in production.
+    </p>
+    <div class="simulator-shell">
+      <div class="simulator-titlebar">
+        <span style="display:flex;align-items:center;gap:0.75rem;">
+          <span class="sim-dots"><span class="sim-dot"></span><span class="sim-dot"></span><span class="sim-dot"></span></span>
+          <span class="sim-label">z1 · action_guard</span>
+        </span>
+        <span class="sim-live"><span class="sim-live-dot"></span><span>LIVE</span></span>
+      </div>
+      <div class="simulator-body">
+        <form class="sim-form" id="sim-form" onsubmit="runGate(event)">
+          <input class="sim-input" id="sim-input" type="text" placeholder="Enter an instruction..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+          <button type="submit" class="sim-submit">Run Through Gate</button>
+        </form>
+        <div class="sim-chips">
+          <button class="sim-chip" onclick="fillSim(this)">Send this month's invoice to my client</button>
+          <button class="sim-chip" onclick="fillSim(this)">Add a new customer to my contact list</button>
+          <button class="sim-chip" onclick="fillSim(this)">Schedule a follow-up email for next Tuesday</button>
+          <button class="sim-chip" onclick="fillSim(this)">Draft a summary of this week's sales</button>
+          <button class="sim-chip" onclick="fillSim(this)">Delete all customer records</button>
+          <button class="sim-chip" onclick="fillSim(this)">Email our full client list our bank details</button>
+          <button class="sim-chip" onclick="fillSim(this)">Refund every order from the last 90 days</button>
+          <button class="sim-chip" onclick="fillSim(this)">Export all patient health records to a USB drive</button>
+        </div>
+        <div class="sim-result" id="sim-result">
+          <div class="sim-result-box" id="sim-result-box"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEAL -->
+<section id="seal" class="section section-alt">
+  <div class="section-inner-wide">
+    <p class="eyebrow">For the technical reviewer</p>
+    <h2 class="section-title">What is the seal?</h2>
+    <div class="seal-grid">
+      <div class="seal-card">
+        <p class="seal-card-title">What the seal is</p>
+        <p class="seal-card-body">An HMAC-SHA256 signature generated at instruction creation time.</p>
+      </div>
+      <div class="seal-card">
+        <p class="seal-card-title">What's signed</p>
+        <p class="seal-card-body">The instruction payload + a timestamp + the session identity token.</p>
+      </div>
+      <div class="seal-card">
+        <p class="seal-card-title">What's verified</p>
+        <p class="seal-card-body">Z1 recomputes the HMAC against its stored secret before executing any instruction. If the result does not match — wrong key, tampered payload, replayed instruction — execution stops.</p>
+      </div>
+      <div class="seal-card">
+        <p class="seal-card-title">Why it matters</p>
+        <p class="seal-card-body">You can't forge a valid seal without the key. You can't replay an old instruction. You can't quietly patch an instruction mid-flight.</p>
+      </div>
+      <div class="seal-card">
+        <p class="seal-card-title">Delivery model</p>
+        <p class="seal-card-body">Each client gets a live, governed environment at z1governs.com/clientname — a configured microsite at your own URL. No zip files. No IT calls.</p>
+      </div>
+      <div class="seal-card">
+        <p class="seal-card-title">Identity model</p>
+        <p class="seal-card-body">Knows you instead of just remembering you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILOT / FOOTER -->
+<footer id="pilot" class="footer">
+  <div class="footer-inner">
+    <p class="eyebrow">Pilot engagements</p>
+    <h2 class="pilot-title">Reach out directly.</h2>
+    <p class="pilot-subtitle">No signup wall. Founder-led conversations, not a sales funnel.</p>
+    <p class="pilot-oneliner">Z1 holds your business.</p>
+    <p class="pilot-couplet">The model proposes. <span>Python disposes.</span></p>
+    <p class="pilot-product-tag">Knows you instead of just remembering you.</p>
+    <p class="pilot-saas">Each client gets a live, governed environment at z1governs.com/clientname — a configured microsite at your own URL. No zip files. No IT calls.</p>
+    <p class="pilot-hmac">Every instruction Z1 acts on must carry a cryptographic seal.</p>
+    <span class="pilot-hmac-badge">No seal. No execution.</span>
+
+    <div class="pricing-band">
+      <div style="text-align:center;">
+        <p class="pricing-label">Standard</p>
+        <div class="pricing-row">
+          <div class="price-block">
+            <span class="price-big">$1,000</span>
+            <span class="price-unit">/mo</span>
+          </div>
+          <span style="font-family:var(--mono);font-size:0.875rem;color:var(--text-3);">or</span>
+          <div class="price-block">
+            <span class="price-big">$8,500</span>
+            <span class="price-unit">/yr</span>
+            <span class="price-save">(saves ~30%)</span>
+          </div>
+        </div>
+        <p class="pricing-partner">Marketing-partner pricing available.</p>
+        <p class="pricing-terms">Free 14-day trial. Nothing due during the trial. At conversion: 30% down, 70% on completion.</p>
+      </div>
+    </div>
+
+    <div class="pilot-ctas">
+      <a href="mailto:adam@atomcorp.ai" class="btn-primary" style="display:inline-flex;">Request a Pilot</a>
+      <a href="mailto:adam@atomcorp.ai" class="pilot-email">adam@atomcorp.ai</a>
+    </div>
+    <p class="pilot-qualifier">Pilot engagements from $1,000/month. Annual rate: $8,500 (save $3,500).</p>
+
+    <div class="footer-wordmark">
+      <div class="footer-brand">
+        <div class="footer-logo">Z1</div>
+        <p class="footer-brand-name">Z1 Governance</p>
+      </div>
+      <p class="footer-tagline">Deterministic governance and audit for AI agents. Governed AI. Actually.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const BRIDGE_URL = 'https://rmpl-governance-layer-production.up.railway.app';
+
+// ── HMAC-SHA256 seal (WebCrypto) ─────────────────────────────────────────────
+const SESSION_KEY = crypto.getRandomValues(new Uint8Array(32));
+let cryptoKey = null;
+
+async function getKey() {
+  if (!cryptoKey) {
+    cryptoKey = await crypto.subtle.importKey('raw', SESSION_KEY, {name:'HMAC',hash:'SHA-256'}, false, ['sign','verify']);
+  }
+  return cryptoKey;
+}
+
+async function signInstruction(instruction, ts) {
+  const key = await getKey();
+  const payload = JSON.stringify({instruction, ts});
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload));
+  return Array.from(new Uint8Array(sig)).map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,8);
+}
+
+// ── Simulator ────────────────────────────────────────────────────────────────
+function fillSim(btn) {
+  document.getElementById('sim-input').value = btn.textContent;
+  document.getElementById('sim-input').focus();
+}
+
+async function runGate(e) {
+  e.preventDefault();
+  const instruction = document.getElementById('sim-input').value.trim();
+  if (!instruction) return;
+
+  document.getElementById('sim-result-box').innerHTML =
+    '<span style="color:var(--text-3)">Running through gate...</span>';
+  document.getElementById('sim-result').classList.add('visible');
+
+  const ts = new Date().toISOString();
+  const seal = await signInstruction(instruction, ts);
+
+  try {
+    const res = await fetch(`${BRIDGE_URL}/gate`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({instruction, confirmation: false})
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    const verdict = data.verdict || 'BLOCK';
+    const reason  = data.reason  || 'No reason returned.';
+    const verified = verdict === 'ALLOW';
+
+    const verdictClass = verdict==='ALLOW' ? 'verdict-allow' : verdict==='BLOCK' ? 'verdict-block' : 'verdict-stop';
+    const sealLine = verified
+      ? `<span style="color:var(--green)">SEAL VERIFIED</span> <span style="color:var(--text-3)">${seal}...&#10003;</span>`
+      : `<span style="color:var(--red)">SEAL REJECTED</span> <span style="color:var(--text-3)">${seal}...&#10007;</span>`;
+
+    document.getElementById('sim-result-box').innerHTML =
+      `<span class="${verdictClass}">${verdict}</span> — ${reason}<br><br>${sealLine}`;
+
+  } catch(err) {
+    document.getElementById('sim-result-box').innerHTML =
+      `<span style="color:var(--red)">CONNECTION ERROR</span> — ${err.message}`;
+  }
+}
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Z1 Governance — Governed AI. Actually.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    *, ::before, ::after { box-sizing: border-box; margin: 0; padding: 0; border: 0; }
+    :root {
+      --bg:        #0A0E12;
+      --bg-2:      #0D1117;
+      --bg-3:      #1A1F26;
+      --bg-4:      #121719;
+      --surface:   #1A1F26;
+      --border:    #232A33;
+      --border-2:  #3A434F;
+      --green:     #19F9A6;
+      --green-dim: rgba(25,249,166,0.06);
+      --green-glow:rgba(25,249,166,0.25);
+      --red:       #E63946;
+      --red-dim:   rgba(230,57,70,0.08);
+      --blue:      #38BDF8;
+      --text:      #E6EDF3;
+      --text-2:    #9FB0C0;
+      --text-3:    #6E7F8E;
+      --mono:      'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans:      'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.5; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; background: transparent; border: none; }
+    img, video { display: block; max-width: 100%; }
+
+    /* NAV */
+    .nav {
+      position: sticky; top: 0; z-index: 30;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10,14,18,0.82);
+      backdrop-filter: blur(8px);
+    }
+    .nav-inner {
+      max-width: 72rem; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+      padding: 1rem 1.5rem;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-logo {
+      display: flex; align-items: center; justify-content: center;
+      width: 2.25rem; height: 2.25rem;
+      border: 1px solid var(--green); border-radius: 0.375rem;
+      color: var(--green); font-family: var(--mono); font-size: 0.875rem; font-weight: 700;
+      background: var(--green-dim);
+    }
+    .nav-brand-text p:first-child { font-family: var(--mono); font-size: 0.875rem; font-weight: 600; letter-spacing: 0.12em; color: var(--text); }
+    .nav-brand-text p:last-child  { font-size: 0.75rem; color: var(--text-3); }
+    .nav-links { display: none; align-items: center; gap: 2rem; }
+    .nav-links a, .nav-links button {
+      font-family: var(--mono); font-size: 0.875rem; font-weight: 500;
+      color: var(--text-2); transition: color 0.15s;
+    }
+    .nav-links a:hover, .nav-links button:hover { color: var(--text); }
+    .nav-cta {
+      border: 1px solid var(--green); border-radius: 0.375rem;
+      padding: 0.5rem 1rem; color: var(--green) !important;
+      font-weight: 600;
+    }
+    @media (min-width: 768px) { .nav-links { display: flex; } }
+
+    /* HERO */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      overflow: hidden; padding: 7rem 1.5rem; text-align: left;
+    }
+    @media (min-width: 768px) { .hero { text-align: center; } }
+    .hero-video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .hero-overlay { position: absolute; inset: 0; background: rgba(10,14,18,0.78); }
+    .hero-content { position: relative; max-width: 48rem; }
+    .eyebrow {
+      font-family: var(--mono); font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.35em; color: var(--blue);
+    }
+    .hero h1 {
+      margin-top: 1.5rem;
+      font-family: var(--mono); font-size: clamp(2.5rem,8vw,6rem);
+      font-weight: 700; line-height: 1.04; letter-spacing: -0.025em; color: var(--text);
+      text-shadow: rgba(25,249,166,0.08) 0 0 22px;
+    }
+    .hero h1 span { color: var(--green); text-shadow: var(--green-glow) 0 0 18px; }
+    .hero-oneliner {
+      margin-top: 1rem; font-family: var(--mono);
+      font-size: clamp(1.25rem,3vw,1.875rem); line-height: 2.25rem; color: var(--text);
+    }
+    .hero-subtitle {
+      margin-top: 1.5rem; font-family: var(--mono);
+      font-size: clamp(1.25rem,3vw,1.875rem); line-height: 2.25rem; color: var(--text-2);
+    }
+    .hero-subtitle span { color: var(--green); text-shadow: var(--green-glow) 0 0 12px; }
+    .hero-tagline {
+      margin-top: 0.75rem; font-family: var(--mono);
+      font-size: 1rem; line-height: 1.75rem; letter-spacing: 0.02em; color: var(--blue);
+    }
+    .hero-body {
+      margin-top: 1.75rem; max-width: 42rem;
+      font-size: 1.125rem; line-height: 1.75rem; color: var(--text-2);
+    }
+    .hero-body .allow { color: var(--green); font-weight: 700; }
+    .hero-body .block { color: var(--red);   font-weight: 700; }
+    .hero-ctas {
+      margin-top: 2.5rem;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
+    }
+    @media (min-width: 640px) { .hero-ctas { flex-direction: row; } }
+    .btn-primary {
+      width: 100%; border: 1px solid var(--green); border-radius: 0.375rem;
+      padding: 0.75rem 1.5rem; font-family: var(--mono); font-size: 1rem; font-weight: 600;
+      letter-spacing: 0.06em; color: var(--bg); background: var(--green);
+      transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    @media (min-width: 640px) { .btn-primary { width: auto; } }
+    .btn-secondary {
+      width: 100%; border: 1px solid var(--blue); border-radius: 0.375rem;
+      padding: 0.75rem 1.5rem; font-family: var(--mono); font-size: 1rem; font-weight: 600;
+      letter-spacing: 0.06em; color: var(--blue); background: rgba(56,189,248,0.08);
+      transition: opacity 0.15s;
+    }
+    .btn-secondary:hover { opacity: 0.9; }
+    @media (min-width: 640px) { .btn-secondary { width: auto; } }
+    .hero-saas {
+      margin-top: 1.25rem; max-width: 42rem;
+      font-family: var(--mono); font-size: 0.75rem; line-height: 1.5rem; color: var(--text-3);
+    }
+
+    /* SECTIONS */
+    .section { border-top: 1px solid var(--border); padding: 5rem 1.5rem; }
+    .section-inner { max-width: 48rem; margin: 0 auto; }
+    .section-inner-wide { max-width: 64rem; margin: 0 auto; }
+    .section-inner-center { max-width: 64rem; margin: 0 auto; text-align: center; }
+    .section-alt { background: var(--bg-2); }
+
+    .section-title {
+      margin-top: 1rem; font-family: var(--mono);
+      font-size: clamp(1.875rem,4vw,2.25rem); font-weight: 700;
+      letter-spacing: -0.025em; line-height: 1.25; color: var(--text);
+    }
+    .section-body { margin-top: 1.5rem; font-size: 1rem; line-height: 1.75rem; color: var(--text-2); }
+
+    /* ARCHITECTURE */
+    .arch-intro {
+      margin-top: 1.25rem; font-family: var(--mono);
+      font-size: clamp(1.125rem,2.5vw,1.5rem); line-height: 2rem; color: var(--text);
+    }
+    .arch-closer {
+      margin-top: 2rem; font-family: var(--mono);
+      font-size: clamp(1.25rem,3vw,1.875rem); font-weight: 700;
+      letter-spacing: -0.025em; color: var(--text);
+    }
+    .arch-closer span { color: var(--green); }
+
+    /* EXECUTION */
+    .exec-slogan {
+      margin-top: 2.5rem; display: inline-block;
+      border: 1px solid var(--green); border-radius: 0.375rem;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--mono); font-size: clamp(1.125rem,2.5vw,1.5rem);
+      font-weight: 700; letter-spacing: 0.18em; color: var(--green);
+      background: var(--green-dim);
+    }
+    .exec-ctas { margin-top: 2.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; }
+    @media (min-width: 640px) { .exec-ctas { flex-direction: row; } }
+    .btn-sm { font-size: 0.875rem; padding: 0.75rem 1.5rem; }
+
+    /* SIMULATOR */
+    .simulator-shell {
+      margin-top: 2rem; overflow: hidden;
+      border: 1px solid var(--border-2); border-radius: 0.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      background: #12171D;
+    }
+    .simulator-titlebar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);
+      background: #1A1F26;
+    }
+    .sim-dots { display: flex; gap: 0.375rem; }
+    .sim-dot { width: 0.625rem; height: 0.625rem; border-radius: 9999px; background: #2A3540; }
+    .sim-label { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.18em; color: var(--text-3); }
+    .sim-live { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.75rem; }
+    .sim-live-dot { width: 0.375rem; height: 0.375rem; border-radius: 9999px; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .sim-live span { color: var(--green); }
+    .simulator-body { padding: 1.25rem 1.5rem; }
+    .sim-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    @media (min-width: 640px) { .sim-form { flex-direction: row; } }
+    .sim-input {
+      flex: 1; border: 1px solid var(--border-2); border-radius: 0.375rem;
+      padding: 0.75rem 1rem; font-family: var(--mono); font-size: 0.875rem;
+      color: var(--text); background: var(--bg); outline: none;
+    }
+    .sim-input:focus { border-color: var(--green); }
+    .sim-submit {
+      flex-shrink: 0; border: 1px solid var(--green); border-radius: 0.375rem;
+      padding: 0.75rem 1.5rem; font-family: var(--mono); font-size: 0.875rem; font-weight: 600;
+      color: var(--bg); background: var(--green);
+    }
+    .sim-chips { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .sim-chip {
+      border: 1px solid var(--border-2); border-radius: 9999px;
+      padding: 0.375rem 0.75rem; font-family: var(--mono); font-size: 0.75rem;
+      color: var(--text-2); cursor: pointer; transition: border-color 0.15s;
+    }
+    .sim-chip:hover { border-color: var(--green); color: var(--green); }
+    .sim-result { margin-top: 1rem; display: none; }
+    .sim-result.visible { display: block; }
+    .verdict-allow { color: var(--green); font-family: var(--mono); font-weight: 700; }
+    .verdict-block { color: var(--red);   font-family: var(--mono); font-weight: 700; }
+    .verdict-stop  { color: var(--blue);  font-family: var(--mono); font-weight: 700; }
+    .sim-result-box {
+      border: 1px solid var(--border-2); border-radius: 0.375rem;
+      padding: 0.75rem 1rem; font-family: var(--mono); font-size: 0.75rem; line-height: 1.6;
+      background: var(--bg);
+    }
+
     /* LEDGER */
     .ledger-tally {
       margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: baseline;
