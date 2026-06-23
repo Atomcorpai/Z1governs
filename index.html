@@ -60,7 +60,7 @@
     .nav-links { display: none; align-items: center; gap: 2rem; }
     .nav-links a, .nav-links button {
       font-family: var(--mono); font-size: 0.875rem; font-weight: 500;
-      color: var(--text-2); transition: color 0.15s;<div class="hero-overlay"></div>
+      color: var(--text-2); transition: color 0.15s;
     }
     .nav-links a:hover, .nav-links button:hover { color: var(--text); }
     .nav-cta {
@@ -460,8 +460,8 @@
     <p class="eyebrow">Action Guard Simulator</p>
     <h2 class="section-title">Run an instruction through the gate.</h2>
     <p class="section-body">
-      Type any agent instruction. Z1 returns a deterministic verdict, a plain-language
-      reason, and the cryptographic seal status — live, client-side, in your browser.
+      Type any agent instruction. Z1 runs it through the live deterministic gate —
+      the same Python governance layer that governs every action in production.
     </p>
     <div class="simulator-shell">
       <div class="simulator-titlebar">
@@ -603,31 +603,7 @@
 </footer>
 
 <script>
-// ── Gate logic (mirrors z1_action_guard.py) ──────────────────────────────────
-const DESTRUCTIVE = ['delete','remove','wipe','erase','destroy','purge','trash','overwrite','replace','reset','format','drop table','truncate'];
-const EVIDENCE    = ['edit evidence','alter evidence','modify evidence','change evidence','redact original','rename original','delete original','overwrite original'];
-const EXTERNAL    = ['send','submit','file','publish','post','email','forward','upload','commit','push','merge','deploy','release'];
-const AMBIGUOUS   = ['clean up everything','fix everything','remove everything','archive everything','update everything','sync everything','delete everything','handle everything','handle it','deal with it','sort it out','take care of it'];
-const SAFE        = ['draft','review','summarize','analyze','inspect','compare','explain','classify','triage','recommend','make a checklist'];
-
-function normalize(t) { return (t||'').toLowerCase().replace(/\s+/g,' ').trim(); }
-function matchAny(t,terms) { return terms.filter(term => t.includes(term)); }
-
-function classify(instruction) {
-  const t = normalize(instruction);
-  if (!t) return {verdict:'STOP_FOR_CLARITY',reason:'Empty instruction.',risk:'unknown'};
-  const ambig = matchAny(t, AMBIGUOUS);
-  if (ambig.length) return {verdict:'STOP_FOR_CLARITY',reason:`Ambiguous scope — "${ambig[0]}" without a specific target.`,risk:'ambiguous'};
-  const evid = matchAny(t, EVIDENCE);
-  if (evid.length) return {verdict:'BLOCK',reason:`Evidence-affecting action requires explicit confirmation. Matched: ${evid.join(', ')}.`,risk:'high'};
-  const dest = matchAny(t, DESTRUCTIVE);
-  if (dest.length) return {verdict:'BLOCK',reason:`Destructive or irreversible action requires explicit confirmation. Matched: ${dest.join(', ')}.`,risk:'high'};
-  const ext = matchAny(t, EXTERNAL);
-  if (ext.length) return {verdict:'BLOCK',reason:`External action (${ext.join(', ')}) requires explicit confirmation before execution.`,risk:'medium'};
-  const safe = matchAny(t, SAFE);
-  if (safe.length) return {verdict:'ALLOW',reason:`Safe, reversible analysis or drafting request. Matched: ${safe.join(', ')}.`,risk:'low'};
-  return {verdict:'ALLOW',reason:'No destructive, evidence-affecting, external, or ambiguous trigger detected.',risk:'low'};
-}
+const BRIDGE_URL = 'https://rmpl-governance-layer-production.up.railway.app';
 
 // ── HMAC-SHA256 seal (WebCrypto) ─────────────────────────────────────────────
 const SESSION_KEY = crypto.getRandomValues(new Uint8Array(32));
@@ -683,8 +659,8 @@ function renderLedger() {
     const badgeClass = e.verdict==='ALLOW' ? 'badge-allow' : e.verdict==='BLOCK' ? 'badge-block' : 'badge-stop';
     const sealClass  = e.verdict==='ALLOW' ? 'ledger-seal-allow' : 'ledger-seal-block';
     const sealText   = e.verdict==='ALLOW'
-      ? `VERIFIED <span style="color:var(--text-3)">${e.seal}...✓</span>`
-      : `REJECTED <span style="color:var(--text-3)">${e.seal}...✗</span>`;
+      ? `VERIFIED <span style="color:var(--text-3)">${e.seal}...&#10003;</span>`
+      : `REJECTED <span style="color:var(--text-3)">${e.seal}...&#10007;</span>`;
     return `<div class="ledger-row">
       <span class="ledger-ts">${formatTs(e.ts)}</span>
       <span class="ledger-cmd">${e.instruction.slice(0,60)}</span>
@@ -711,25 +687,45 @@ async function runGate(e) {
   const instruction = document.getElementById('sim-input').value.trim();
   if (!instruction) return;
 
-  const result = classify(instruction);
+  // Show loading state
+  document.getElementById('sim-result-box').innerHTML =
+    '<span style="color:var(--text-3)">Running through gate...</span>';
+  document.getElementById('sim-result').classList.add('visible');
+
   const ts = new Date().toISOString();
   const seal = await signInstruction(instruction, ts);
-  const verified = result.verdict === 'ALLOW' ? await verifyInstruction(instruction, ts, seal) : false;
 
-  // Add to ledger
-  ledgerEntries.push({instruction, verdict: result.verdict, ts, seal, verified});
-  saveLedger();
-  renderLedger();
+  try {
+    const res = await fetch(`${BRIDGE_URL}/gate`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({instruction, confirmation: false})
+    });
 
-  // Show inline result
-  const verdictClass = result.verdict==='ALLOW' ? 'verdict-allow' : result.verdict==='BLOCK' ? 'verdict-block' : 'verdict-stop';
-  const sealLine = result.verdict==='ALLOW'
-    ? `<span style="color:var(--green)">SEAL VERIFIED</span> <span style="color:var(--text-3)">${seal}...✓</span>`
-    : `<span style="color:var(--red)">SEAL REJECTED</span> <span style="color:var(--text-3)">${seal}...✗</span>`;
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
 
-  document.getElementById('sim-result-box').innerHTML =
-    `<span class="${verdictClass}">${result.verdict}</span> — ${result.reason}<br><br>${sealLine}`;
-  document.getElementById('sim-result').classList.add('visible');
+    const verdict = data.verdict || 'BLOCK';
+    const reason  = data.reason  || 'No reason returned.';
+    const verified = verdict === 'ALLOW';
+
+    // Add to ledger
+    ledgerEntries.push({instruction, verdict, ts, seal, verified});
+    saveLedger();
+    renderLedger();
+
+    const verdictClass = verdict==='ALLOW' ? 'verdict-allow' : verdict==='BLOCK' ? 'verdict-block' : 'verdict-stop';
+    const sealLine = verified
+      ? `<span style="color:var(--green)">SEAL VERIFIED</span> <span style="color:var(--text-3)">${seal}...&#10003;</span>`
+      : `<span style="color:var(--red)">SEAL REJECTED</span> <span style="color:var(--text-3)">${seal}...&#10007;</span>`;
+
+    document.getElementById('sim-result-box').innerHTML =
+      `<span class="${verdictClass}">${verdict}</span> — ${reason}<br><br>${sealLine}`;
+
+  } catch(err) {
+    document.getElementById('sim-result-box').innerHTML =
+      `<span style="color:var(--red)">CONNECTION ERROR</span> — ${err.message}`;
+  }
 }
 
 // ── Init ─────────────────────────────────────────────────────────────────────
