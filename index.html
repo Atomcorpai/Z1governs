@@ -632,7 +632,19 @@
   }
   .remember-output.visible { opacity: 1; }
   .remember-output .filing { display: inline-block; animation: file-away 0.6s ease; }
+  .remember-output .filing.signature { color: var(--gold-bright); font-style: italic; }
   @keyframes file-away { 0% { opacity: 0; transform: translateY(6px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  .remember-frame.signature-pulse { animation: signature-pulse 2.2s ease; }
+  @keyframes signature-pulse {
+    0%, 100% { box-shadow: inset 0 0 0 1px rgba(212,160,23,0.15), 0 0 50px rgba(90,30,140,0.2); border-color: var(--gold-dim); }
+    30% { box-shadow: inset 0 0 0 1px rgba(212,160,23,0.5), 0 0 70px rgba(212,160,23,0.4); border-color: var(--gold-bright); }
+  }
+
+  .memory-ticker-item-new { color: var(--gold-bright); animation: new-memory-glow 3s ease; }
+  @keyframes new-memory-glow {
+    0% { text-shadow: 0 0 18px rgba(212,160,23,0.9); }
+    100% { text-shadow: 0 0 12px rgba(212,160,23,0.3); }
+  }
 
   /* Persistence counter */
   .persistence-counter {
@@ -1110,17 +1122,45 @@ document.addEventListener('click', () => {
 
 /* It remembers */
 const REMEMBER_SILOS = ['OPERATIONAL', 'RELATIONAL', 'DOMAIN', 'SITUATIONAL'];
+const SIGNATURE_PHRASE = 'remember me';
+const SIGNATURE_LINE = "this one isn't filed in a silo. it just stays — a small mark left by whoever built this, so there'd be something here to find.";
 const rememberInput = document.getElementById('rememberInput');
 const rememberOutput = document.getElementById('rememberOutput');
 const rememberSubmit = document.getElementById('rememberSubmit');
+const rememberFrame = document.querySelector('.remember-frame');
+
+function injectMemory(text) {
+  const ticker = document.querySelector('.memory-ticker');
+  if (!ticker) return;
+  const items = ticker.querySelectorAll('.memory-ticker-item');
+  const half = items.length / 2;
+  const a = document.createElement('span');
+  a.className = 'memory-ticker-item memory-ticker-item-new';
+  a.textContent = text;
+  const b = a.cloneNode(true);
+  ticker.insertBefore(a, items[half]);
+  ticker.appendChild(b);
+  setTimeout(() => { a.classList.remove('memory-ticker-item-new'); b.classList.remove('memory-ticker-item-new'); }, 3000);
+}
+
 function submitRemember() {
   const val = rememberInput.value.trim();
   if (!val) return;
-  const silo = REMEMBER_SILOS[Math.floor(Math.random() * REMEMBER_SILOS.length)];
+  const isSignature = val.toLowerCase().includes(SIGNATURE_PHRASE);
   rememberOutput.classList.remove('visible');
   rememberOutput.innerHTML = '';
   setTimeout(() => {
-    rememberOutput.innerHTML = '<span class="filing">// stored in ' + silo + ' · compressed · will surface when relevant</span>';
+    if (isSignature) {
+      rememberOutput.innerHTML = '<span class="filing signature">// ' + SIGNATURE_LINE + '</span>';
+      rememberFrame.classList.remove('signature-pulse');
+      void rememberFrame.offsetWidth;
+      rememberFrame.classList.add('signature-pulse');
+      injectMemory(SIGNATURE_LINE);
+    } else {
+      const silo = REMEMBER_SILOS[Math.floor(Math.random() * REMEMBER_SILOS.length)];
+      rememberOutput.innerHTML = '<span class="filing">// stored in ' + silo + ' · compressed · will surface when relevant</span>';
+      injectMemory('you said: ' + val);
+    }
     rememberOutput.classList.add('visible');
   }, 200);
   rememberInput.value = '';
