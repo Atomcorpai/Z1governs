@@ -646,6 +646,78 @@
     100% { text-shadow: 0 0 12px rgba(212,160,23,0.3); }
   }
 
+  /* Glass elevator */
+  .elevator-shaft {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 30px;
+    padding: 14px 6px 0;
+    position: relative;
+  }
+  .elevator-shaft::before {
+    content: '';
+    position: absolute;
+    top: 20px; left: 8%; right: 8%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim) 15%, var(--gold-dim) 85%, transparent);
+  }
+  .shaft-stop { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 1; }
+  .shaft-dot {
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--purple-bright), var(--purple-deep));
+    border: 1px solid var(--gold-dim);
+    transition: box-shadow 0.4s ease, background 0.4s ease, transform 0.4s ease;
+  }
+  .shaft-dot.lit {
+    background: radial-gradient(circle, var(--gold-bright), var(--gold));
+    box-shadow: 0 0 20px rgba(212,160,23,0.9);
+    transform: scale(1.4);
+  }
+  .shaft-label {
+    font-family: 'WolyWonka', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .glass-elevator {
+    position: fixed;
+    z-index: 500;
+    pointer-events: none;
+    width: 46px; height: 30px;
+    border-radius: 5px;
+    border: 1px solid rgba(212,160,23,0.85);
+    background: linear-gradient(160deg, rgba(139,63,216,0.4), rgba(212,160,23,0.18));
+    box-shadow: 0 0 18px rgba(212,160,23,0.55), inset 0 0 10px rgba(255,255,255,0.2);
+    opacity: 0;
+    transition: left 1.1s cubic-bezier(.45,0,.2,1), top 1.1s cubic-bezier(.45,0,.2,1), opacity 0.25s ease, transform 0.3s ease;
+  }
+  .glass-elevator::before {
+    content: '⚙';
+    display: block;
+    text-align: center;
+    line-height: 30px;
+    font-size: 0.7rem;
+    color: var(--gold-bright);
+  }
+  .glass-elevator.flying { opacity: 1; }
+  .glass-elevator.arrived { opacity: 0; transform: scale(0.2); }
+  .poof-particle {
+    position: fixed;
+    z-index: 500;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold-bright);
+    box-shadow: 0 0 8px 2px rgba(212,160,23,0.7);
+    pointer-events: none;
+    animation: poof-burst 0.6s ease-out forwards;
+  }
+  @keyframes poof-burst {
+    to { transform: translate(var(--px), var(--py)) scale(0); opacity: 0; }
+  }
+
   /* Persistence counter */
   .persistence-counter {
     text-align: center;
@@ -916,6 +988,24 @@ Your AI should remember you. Z1 does.
       </div>
       <div class="remember-output" id="rememberOutput"></div>
     </div>
+    <div class="elevator-shaft">
+      <div class="shaft-stop" data-silo="operational" id="stop-operational">
+        <div class="shaft-dot"></div>
+        <div class="shaft-label">Operational</div>
+      </div>
+      <div class="shaft-stop" data-silo="relational" id="stop-relational">
+        <div class="shaft-dot"></div>
+        <div class="shaft-label">Relational</div>
+      </div>
+      <div class="shaft-stop" data-silo="domain" id="stop-domain">
+        <div class="shaft-dot"></div>
+        <div class="shaft-label">Domain</div>
+      </div>
+      <div class="shaft-stop" data-silo="situational" id="stop-situational">
+        <div class="shaft-dot"></div>
+        <div class="shaft-label">Situational</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1143,13 +1233,64 @@ function injectMemory(text) {
   setTimeout(() => { a.classList.remove('memory-ticker-item-new'); b.classList.remove('memory-ticker-item-new'); }, 3000);
 }
 
+function spawnPoof(x, y) {
+  for (let i = 0; i < 10; i++) {
+    const p = document.createElement('div');
+    p.className = 'poof-particle';
+    const angle = (Math.PI * 2 * i) / 10;
+    const dist = 20 + Math.random() * 20;
+    p.style.setProperty('--px', Math.cos(angle) * dist + 'px');
+    p.style.setProperty('--py', Math.sin(angle) * dist + 'px');
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 650);
+  }
+}
+
+const ELEVATOR_FLIGHT_MS = 1150;
+function flyToSilo(siloKey, onArrive) {
+  const stop = document.getElementById('stop-' + siloKey);
+  const dot = stop.querySelector('.shaft-dot');
+  const inputRect = rememberInput.getBoundingClientRect();
+  const dotRect = dot.getBoundingClientRect();
+
+  const elevator = document.createElement('div');
+  elevator.className = 'glass-elevator';
+  elevator.style.left = (inputRect.left + inputRect.width / 2 - 23) + 'px';
+  elevator.style.top = (inputRect.top - 6) + 'px';
+  document.body.appendChild(elevator);
+
+  requestAnimationFrame(() => {
+    elevator.classList.add('flying');
+    requestAnimationFrame(() => {
+      elevator.style.left = (dotRect.left + dotRect.width / 2 - 23) + 'px';
+      elevator.style.top = (dotRect.top + dotRect.height / 2 - 15) + 'px';
+    });
+  });
+
+  setTimeout(() => {
+    elevator.classList.add('arrived');
+    dot.classList.add('lit');
+    spawnPoof(dotRect.left + dotRect.width / 2, dotRect.top + dotRect.height / 2);
+    setTimeout(() => dot.classList.remove('lit'), 900);
+    setTimeout(() => elevator.remove(), 300);
+    if (onArrive) onArrive();
+  }, ELEVATOR_FLIGHT_MS);
+}
+
+const SILO_STOP_KEYS = { OPERATIONAL: 'operational', RELATIONAL: 'relational', DOMAIN: 'domain', SITUATIONAL: 'situational' };
+
 function submitRemember() {
   const val = rememberInput.value.trim();
   if (!val) return;
   const isSignature = val.toLowerCase().includes(SIGNATURE_PHRASE);
+  const silo = isSignature ? 'RELATIONAL' : REMEMBER_SILOS[Math.floor(Math.random() * REMEMBER_SILOS.length)];
   rememberOutput.classList.remove('visible');
   rememberOutput.innerHTML = '';
-  setTimeout(() => {
+  rememberInput.value = '';
+
+  flyToSilo(SILO_STOP_KEYS[silo], () => {
     if (isSignature) {
       rememberOutput.innerHTML = '<span class="filing signature">// ' + SIGNATURE_LINE + '</span>';
       rememberFrame.classList.remove('signature-pulse');
@@ -1157,13 +1298,11 @@ function submitRemember() {
       rememberFrame.classList.add('signature-pulse');
       injectMemory(SIGNATURE_LINE);
     } else {
-      const silo = REMEMBER_SILOS[Math.floor(Math.random() * REMEMBER_SILOS.length)];
       rememberOutput.innerHTML = '<span class="filing">// stored in ' + silo + ' · compressed · will surface when relevant</span>';
       injectMemory('you said: ' + val);
     }
     rememberOutput.classList.add('visible');
-  }, 200);
-  rememberInput.value = '';
+  });
 }
 rememberInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitRemember(); });
 rememberSubmit.addEventListener('click', submitRemember);
